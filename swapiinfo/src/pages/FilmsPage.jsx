@@ -1,74 +1,73 @@
 import SwAPI from '../services/SwAPI'
 import { useEffect, useState } from 'react'
-import {Col, Card, Button} from 'react-bootstrap'
-import { getIdFromUrl } from '../extract'
+import { Col, Button, ListGroup, ListGroupItem } from 'react-bootstrap'
+import { getIdFromUrl } from '../extract/index.js'
 import { Link } from 'react-router-dom'
+import  Loading  from '../components/Loading'
 
 
 const FilmsPage = () => {
-    const [films, setFilms] = useState([])
+    const [films, setFilms] = useState()
+    const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(1)
 
-    //Get films from api
-    const getFilms = async () => {
-        const data = await SwAPI.getFilms(page)
-        setFilms(data)
-
-
+        // Get data from api
         //Get films from api when component is first mounted
         useEffect(() => {
+        const getFilms = async () => {
+                setLoading(true)
+                const data = await SwAPI.getFilms(page)
+                setLoading(false)
+                setFilms(data)
+            }
             getFilms()
         },[page])
-    }
+    
 
     return (
         <>
-        <div className='App container'>
-            <h1>Star Wars Films</h1>
-
             <div className='App container'>
-            <h1>Star Wars Films</h1>
-            {films.result.map((film)=>(
-                <Col md={3} className="md-4" key={film.episode_id}>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>{film.title}</Card.Title>
-                        </Card.Body>
-                        <div>
-                            <p>Episode: {film.episode_id}</p>
-                            <p>Released: {film.release_date}</p>
-                            <p>Producer: {film.producer}</p>
-                            <p>Director: {film.director}</p>
-                            <p>Episode: {film.characters.length}</p>
+
+                <h1>Star Wars Films</h1>
+                {loading && (
+                    <Loading />
+                )}
+
+                {films && !loading &&
+                    <div>
+                        {films.results.map((film)=>(
+
+                        <Col className="md-4" key={film.episode_id}>
+
+                            <ListGroup>
+                                <ListGroupItem>
+                                <h2>{film.title}</h2>
+                                    <p>Episode: {film.episode_id}</p>
+                                    <p>Released: {film.release_date}</p>
+                                    <p>Episode: {film.characters.length}</p>
+                                <div>
+                                    <Button as={Link} to={`/films/${getIdFromUrl(film.url)}`} variant="info">Click for more info</Button>
+                                </div>
+                                </ListGroupItem>
+                            </ListGroup>
+                        </Col>
+
+                        ))}
+                        <div className="d-flex justify-content-between align-items-center mt-4">
+                            <Button disabled={page === null}vonClick={() => setPage(prevValue => prevValue - 1)} variant="info">Previous Page</Button>
+
+                            <div className="page">{page}</div>
+
+                            <Button onClick={() => setPage(prevValue => prevValue + 1)} disabled={!films.next} variant="info">Next Page</Button>
+
                         </div>
-                        <Card.Body>
-                            <Button as={Link} to={`/films/${getIdFromUrl(film.url)}`}>
-                                Click for more info
-                            </Button>
-                        </Card.Body>
-                    </Card>
-                </Col>
-
-            ))}
-            <div className="d-flex justify-content-between align-items-center mt-4">
-                <Button
-                    disabled={page === 1}
-                    onClick={() => setPage(prevValue => prevValue - 1)}
-                    variant="primary">Previous Page</Button>
-
-                    <div className="page">{page}</div>
-
-                <Button onClick={() => setPage(prevValue => prevValue + 1)}
-                disabled={!films.next}
-                variant="primary">Next Page</Button>
-
+                    </div>   
+                }
             </div>
-            </div>
-
-    
-
-        </div>
         </>
+        
+        
+        
     )
 }
 

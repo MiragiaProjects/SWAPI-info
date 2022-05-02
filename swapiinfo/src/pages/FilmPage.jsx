@@ -1,16 +1,20 @@
 import SwAPI from '../services/SwAPI'
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { getIdFromUrl } from '../extract'
-import { Col, Card, } from 'react-bootstrap'
+import { getIdFromUrl } from '../extract/index.js'
+import { Col, ListGroup, } from 'react-bootstrap'
+import Loading from '../components/Loading'
 
 
 const FilmPage = () => {
     const [film, setFilm] = useState()
+    const [loading, setLoading] = useState()
     const { id } = useParams()
 
     const getFilm = async (id) => {
+        setLoading(true)
         const data = await SwAPI.getFilm(id)
+        setLoading(false)
         setFilm(data)
     }
     useEffect(() => {
@@ -20,17 +24,20 @@ const FilmPage = () => {
     return(
 
         <div>
+            {loading && !loading && (
+                <Loading />
+            )}
 
            {film && (
 
-               <Col md={4} className="mx-auto">
+               <Col className="mx-auto">
 
-                   <Card.Body>
+                   <ListGroup>
                        <p>Episode:{film.episode_id}</p>
                        <p>Released:{film.release_date}</p>
                        <p>Director:{film.director}</p>
                        <p>Producer:{film.producer}</p>
-                   </Card.Body>
+                   </ListGroup>
 
                    <div className='charList'>
                        {film.characters.map((character, index) => 

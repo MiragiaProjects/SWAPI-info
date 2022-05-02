@@ -23,8 +23,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/films" element={<FilmsPage />} />
           <Route path="/films/:id" element={<FilmPage />} />
-          <Route path="/peoples" element={<PeoplesPage />} />
-          <Route path="/peoples/:id" element={<PeoplePage />} />
+          <Route path="/people" element={<PeoplesPage />} />
+          <Route path="/people/:id" element={<PeoplePage />} />
           <Route path="*" element={<NotFound />} />
 
         </Routes>

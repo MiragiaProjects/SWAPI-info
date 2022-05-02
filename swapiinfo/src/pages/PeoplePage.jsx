@@ -2,15 +2,19 @@ import SwAPI from '../services/SwAPI'
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Card, Col } from 'react-bootstrap'
-import { getIdFromUrl } from '../extract'
+import { getIdFromUrl } from '../extract/index.js'
+import Loading from '../components/Loading'
 
 
 const PeoplePage = () => {
     const [people, setPeople] = useState()
     const { id } = useParams()
+    const [loading, setLoading] = useState(false)
 
     const getPeople = async (id) => {
+        setLoading(true)
         const data = await SwAPI.getPeople(id)
+        setLoading(false)
         setPeople(data)
     }
     useEffect(() => {
@@ -19,8 +23,17 @@ const PeoplePage = () => {
 
     return(
         <div>
-            {people && (
-                <Col md={8} className="mx-auto">
+
+            <h1>A Person</h1>
+
+            {loading && (
+                <Loading />
+            )}
+
+            {people && !loading &&(
+
+                <Col className="mx-auto">
+
                     <Card>
                         <Card.Header>{people.name}</Card.Header>
                         <Card.Body>
@@ -32,7 +45,9 @@ const PeoplePage = () => {
                             <p>Birth Year {people.skin_color}</p>
                             <p>Birth Year {people.eye_color}</p>
                         </Card.Body>
+
                         <div className="films">
+
                             {people.films.map((film, index) =>
 
                             <p as={Link} to={`/films/${getIdFromUrl(film)}`} key={index}>Film { getIdFromUrl(film)}</p>
