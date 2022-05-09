@@ -3,24 +3,19 @@ import { useEffect, useState } from 'react'
 import { Col, Button, ListGroup, ListGroupItem } from 'react-bootstrap'
 import { getIdFromUrl } from '../extract/index.js'
 import { Link } from 'react-router-dom'
-import Loading from '../components/Loading'
+
 
 
 const PeoplesPage = () => {
     const [peoples, setPeoples] = useState()
-    const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(1)
 
-
-    useEffect(() => {
-    //Get films from api
-    //Get films from api when component is first mounted
-    const getPeoples = async () => {
-        setLoading(true)
+   const getPeoples = async () => {
         const data = await SwAPI.getPeoples(page)
-        setLoading(false)
         setPeoples(data)
     }  
+
+    useEffect(() => {
             getPeoples()
         },[page])
     
@@ -30,11 +25,8 @@ const PeoplesPage = () => {
         <div className='App container'>
             <h1>Star Wars People</h1>
 
-            {loading && (
-                <Loading />
-            )}
 
-           {peoples && !loading &&(
+           {peoples && (
 
                <div>
 

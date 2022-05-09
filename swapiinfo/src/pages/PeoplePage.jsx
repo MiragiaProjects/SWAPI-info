@@ -3,18 +3,16 @@ import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Card, Col } from 'react-bootstrap'
 import { getIdFromUrl } from '../extract/index.js'
-import Loading from '../components/Loading'
+
 
 
 const PeoplePage = () => {
     const [people, setPeople] = useState()
     const { id } = useParams()
-    const [loading, setLoading] = useState(false)
+    
 
     const getPeople = async (id) => {
-        setLoading(true)
         const data = await SwAPI.getPeople(id)
-        setLoading(false)
         setPeople(data)
     }
     useEffect(() => {
@@ -26,11 +24,9 @@ const PeoplePage = () => {
 
             <h1>A Person</h1>
 
-            {loading && (
-                <Loading />
-            )}
+        
 
-            {people && !loading &&(
+            {people &&(
 
                 <Col className="mx-auto">
 
