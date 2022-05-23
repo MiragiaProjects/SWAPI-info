@@ -54,7 +54,7 @@ const FilmsPage = () => {
 
                         ))}
                         <div className="d-flex justify-content-between align-items-center mt-4">
-                            <Button disabled={page === null}vonClick={() => setPage(prevValue => prevValue - 1)} variant="info">Previous Page</Button>
+                            <Button disabled={page === null}onClick={() => setPage(prevValue => prevValue - 1)} variant="info">Previous Page</Button>
 
                             <div className="page">{page}</div>
 
