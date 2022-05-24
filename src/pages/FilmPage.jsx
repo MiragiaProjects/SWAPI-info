@@ -41,7 +41,9 @@ const FilmPage = () => {
 
                    <div className='charList'>
                        {film.characters.map((character, index) => 
-                       <p as={Link} to={`/people/${getIdFromUrl(character)}`} key={index}>Character{ getIdFromUrl(character)}</p>
+                        <div className="text-center">
+                       <Link to={`/people/${getIdFromUrl(character)}`} key={index}>Character{ getIdFromUrl(character)}</Link>
+                       </div>
                        )}
                    </div>
 
