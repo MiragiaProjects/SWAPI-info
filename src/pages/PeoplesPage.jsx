@@ -39,7 +39,7 @@ const PeoplesPage = () => {
                            <h2>{people.name}</h2>
                            <p>Gender:{people.gender}</p>
                            <p>Born:{people.birth_year}</p>
-                           <p>Part of{people.film.length} films</p>
+                           <p>Part of{people.films.length} films</p>
                            <Button as={Link} to={`/people/${getIdFromUrl(people.url)}`} variant="info"> More Info</Button>
                        </ListGroupItem>
                        </ListGroup>
@@ -47,7 +47,7 @@ const PeoplesPage = () => {
                ))}
 
                <div className='d-flex justify-content-between align-item-center mt-4'>
-                   <Button disabled={page === null} onClick={() => setPage(prevValue => prevValue - 1)} variant="info">Next Page</Button>
+                   <Button disabled={page === 1} onClick={() => setPage(prevValue => prevValue - 1)} variant="info">Prev Page</Button>
                    <div className="page">{page}</div>
                    <Button onClick={() => setPage(prevValue => prevValue + 1)} disabled={!peoples.next} variant="info">Next Page</Button>
                </div>
