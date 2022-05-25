@@ -44,7 +44,7 @@ const FilmsPage = () => {
                                 <h2>{film.title}</h2>
                                     <p>Episode: {film.episode_id}</p>
                                     <p>Released: {film.release_date}</p>
-                                    <p>Episode: {film.characters.length}</p>
+                                    <p>Characters: {film.characters.length}</p>
                                 <div>
                                     <Button as={Link} to={`/films/${getIdFromUrl(film.url)}`} variant="info">Click for more info</Button>
                                 </div>
