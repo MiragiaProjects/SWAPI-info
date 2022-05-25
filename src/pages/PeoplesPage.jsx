@@ -10,12 +10,13 @@ const PeoplesPage = () => {
     const [peoples, setPeoples] = useState()
     const [page, setPage] = useState(1)
 
-   const getPeoples = async () => {
-        const data = await SwAPI.getPeoples(page)
-        setPeoples(data)
-    }  
+
 
     useEffect(() => {
+        const getPeoples = async () => {
+            const data = await SwAPI.getPeoples(page)
+            setPeoples(data)
+        }  
             getPeoples()
         },[page])
     
